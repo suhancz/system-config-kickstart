@@ -15,7 +15,7 @@ Source0: %{name}-%{version}.tar.gz
 Obsoletes: ksconfig, redhat-config-kickstart, mkkickstart
 BuildRequires: desktop-file-utils, intltool, gettext
 BuildRequires: transifex-client
-Requires: pygtk2 >= 1.99.11, pygtk2-libglade, python2 >= 2.3.3
+Requires: pygtk2 >= 1.99.11, pygtk2-libglade, python
 Requires: system-config-language
 Requires: python3-pytz
 Requires: python3-kickstart, yum, hicolor-icon-theme
