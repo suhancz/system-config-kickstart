@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # Copyright 2005-2007 Red Hat, Inc.
 #
 # Jeremy Katz <katzj@redhat.com>
@@ -47,14 +48,14 @@ def sanitizeString(s, translate = True):
         i18ndomains = rpm.expandMacro("%_i18ndomains").split(":")
     else:
         i18ndomains = ["redhat-dist"]
-        
+
     # iterate over i18ndomains to find the translation
     for d in i18ndomains:
         r = gettext.dgettext(d, s)
         if r != s:
             s = r
             break
-        
+
     s = s.replace("\n\n", "\x00")
     s = s.replace("\n", " ")
     s = s.replace("\x00", "\n\n")
@@ -105,7 +106,7 @@ def _deselectPackage(ayum, group, pkg):
             try:
                 txmbr.groups.remove(grpid)
             except ValueError:
-                log = logging.getLogger("yum.verbose")                
+                log = logging.getLogger("yum.verbose")
                 log.debug("package %s was not marked in group %s" %(po, grpid))
             if len(txmbr.groups) == 0:
                 ayum.tsInfo.remove(po.pkgtup)
@@ -170,7 +171,7 @@ class OptionalPackageSelector:
         column.pack_start(cbr, False)
         column.add_attribute(cbr, 'active', 0)
         tree.append_column(column)
-        
+
         column = gtk.TreeViewColumn(None, None)
         renderer = gtk.CellRendererText()
         column.pack_start(renderer, True)
@@ -203,7 +204,7 @@ class OptionalPackageSelector:
         else:
             _selectPackage(self.ayum, self.group, pkg)
         self.pkgstore.set_value(i, 0, not sel)
-            
+
 
     def __getPackageObject(self, pkgname):
         try:
@@ -288,7 +289,7 @@ class GroupSelector:
         b = gtk.TextBuffer()
         self.xml.get_widget("groupDescriptionTextView").set_buffer(b)
 
-    def _createCategoryStore(self):        
+    def _createCategoryStore(self):
         # display string, category object
         self.catstore = gtk.TreeStore(gobject.TYPE_STRING,
                                       gobject.TYPE_PYOBJECT)
@@ -325,7 +326,7 @@ class GroupSelector:
         column.add_attribute(cbr, 'active', 0)
         cbr.connect ("toggled", self._groupToggled)
         tree.append_column(column)
-        
+
         renderer = gtk.CellRendererText()
         column = gtk.TreeViewColumn('Text', renderer, markup=1)
         column.set_clickable(False)
@@ -405,7 +406,7 @@ class GroupSelector:
         b.set_text("")
         if grp is None:
             return
-        
+
         if grp.description:
             txt = xmltrans(grp.description, grp.translated_description)
         else:
@@ -441,12 +442,12 @@ class GroupSelector:
             i = self.groupstore.get_iter(path)
         if sel is None:
             sel = not self.groupstore.get_value(i, 0)
-            
+
         self.groupstore.set_value(i, 0, sel)
         grp = self.groupstore.get_value(i, 2)
 
         self.vbox.window.set_cursor(gdk.Cursor(gdk.WATCH))
-        
+
         if sel:
             self.ayum.selectGroup(grp.groupid)
         else:
@@ -515,7 +516,7 @@ class GroupSelector:
         for p in paths:
             return model.get_value(model.get_iter(p), 2)
         return None
-    
+
     def _optionalPackagesDialog(self, *args):
         group = self._getSelectedGroup()
         if group is None:
@@ -564,7 +565,7 @@ class GroupSelector:
             # ensure the group is selected
             self.ayum.selectGroup(grp.groupid)
             model.set_value(i, 0, True)
-        
+
             for pkg in grp.default_packages.keys() + \
                     grp.optional_packages.keys():
                 if self.ayum.isPackageInstalled(pkg):
@@ -586,7 +587,7 @@ class GroupSelector:
         if selection.count_selected_rows() == 0:
             return
         (model, paths) = selection.get_selected_rows()
-        
+
         for p in paths:
             i = model.get_iter(p)
             grp = model.get_value(i, 2)
@@ -615,7 +616,7 @@ class GroupSelector:
             if pthinfo is not None:
                 sel = widget.get_selection()
                 if sel.count_selected_rows() == 1:
-                    path, col, cellx, celly = pthinfo                    
+                    path, col, cellx, celly = pthinfo
                     widget.grab_focus()
                     widget.set_cursor(path, col, 0)
                 self.__doGroupPopup(event.button, event.time)
@@ -625,5 +626,3 @@ class GroupSelector:
         sel = widget.get_selection()
         if sel.count_selected_rows() > 0:
             self.__doGroupPopup(0, 0)
-        
-        

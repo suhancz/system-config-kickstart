@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import gtk
 import gobject
 
@@ -45,4 +46,3 @@ class ProgressWindow(gtk.Window):
         gtk.Window.hide(self)
 
     start = end = progressbar = next_task
-

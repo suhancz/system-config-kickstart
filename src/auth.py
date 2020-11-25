@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #
 # Chris Lumens <clumens@redhat.com>
 # Brent Fox <bfox@redhat.com>
@@ -18,7 +19,7 @@
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
 # trademarks that are incorporated in the source code or documentation are not
 # subject to the GNU General Public License and may only be used or replicated
-# with the express permission of Red Hat, Inc. 
+# with the express permission of Red Hat, Inc.
 
 import gtk
 import gtk.glade
@@ -71,7 +72,7 @@ class nisData:
                     return ""
                 else:
                     return " --enablenis --nisdomain=" + self.nisdomain + " --nisserver=" + self.nisserver
-			
+
 class ldapData:
     def __init__(self, quit_cb=None):
         global ldapAuth
@@ -145,7 +146,7 @@ class kerberosData:
             return ""
         else:
             return " --enablekrb5 --krb5realm=" + self.kerberosRealm + " --krb5kdc=" + self.kerberosKDC + " --krb5adminserver=" + self.kerberosMaster
-            
+
 class hesiodData:
     def __init__(self, quit_cb=None):
         global hesiodLHS
@@ -200,7 +201,7 @@ class sambaData:
                 else:
 			return " --enablesmbauth --smbservers=" + self.sambaServer + " --smbworkgroup=" + self.sambaWorkgroup
 
-      
+
 class auth:
     def formToKickstart(self):
         if self.nisCheck.get_active():
@@ -282,13 +283,13 @@ class auth:
         buf = buf + self.myKerberosClass.return_data()
         buf = buf + self.myHesiodClass.return_data()
         buf = buf + self.mySambaClass.return_data()
-	
+
         if (self.nscd_checkbutton.get_active()):
             buf = buf + " --enablecache"
 
         self.ks.authconfig(authconfig=buf)
         return 0
-    
+
     def __init__(self, xml, ksHandler):
         self.ks = ksHandler
 
@@ -363,20 +364,20 @@ class auth:
         self.nisDomainLabel.set_sensitive(self.nisCheck.get_active())
         self.nisDomainEntry.set_sensitive(self.nisCheck.get_active())
         self.nisServerLabel.set_sensitive(self.nisCheck.get_active())
-        self.nisBroadcastCheck.set_sensitive(self.nisCheck.get_active())	
+        self.nisBroadcastCheck.set_sensitive(self.nisCheck.get_active())
         self.nisServerEntry.set_sensitive(self.nisCheck.get_active())
         self.myNisClass.set_enabled(self.nisCheck.get_active())
-        
+
     def enableBroadcast(self, checkbutton):
         val = not checkbutton.get_active()
         self.nisServerEntry.set_sensitive(val)
         self.nisServerLabel.set_sensitive(val)
-            
+
     def enableLDAP(self, args):
-        self.ldapLabel1.set_sensitive(self.ldapCheck.get_active())		
-        self.ldapLabel2.set_sensitive(self.ldapCheck.get_active())		
+        self.ldapLabel1.set_sensitive(self.ldapCheck.get_active())
+        self.ldapLabel2.set_sensitive(self.ldapCheck.get_active())
         self.ldapServerEntry.set_sensitive(self.ldapCheck.get_active())
-        self.ldapDNEntry.set_sensitive(self.ldapCheck.get_active())				
+        self.ldapDNEntry.set_sensitive(self.ldapCheck.get_active())
         self.ldapCertCheck.set_sensitive(self.ldapCheck.get_active())
         self.ldapLabel3.set_sensitive(self.ldapCheck.get_active() and self.ldapCertCheck.get_active())
         self.ldapCertEntry.set_sensitive(self.ldapCheck.get_active() and self.ldapCertCheck.get_active())
@@ -394,27 +395,27 @@ class auth:
         self.kerberosRealmEntry.set_sensitive(self.kerberosCheck.get_active())
         self.kerberosKDCEntry.set_sensitive(self.kerberosCheck.get_active())
         self.kerberosMasterEntry.set_sensitive(self.kerberosCheck.get_active())
-        self.myKerberosClass.set_enabled(self.kerberosCheck.get_active())			
+        self.myKerberosClass.set_enabled(self.kerberosCheck.get_active())
 
     def enableHesiod(self, args):
-        self.hesiodLabel1.set_sensitive(self.hesiodCheck.get_active())		
-        self.hesiodLabel2.set_sensitive(self.hesiodCheck.get_active())		
+        self.hesiodLabel1.set_sensitive(self.hesiodCheck.get_active())
+        self.hesiodLabel2.set_sensitive(self.hesiodCheck.get_active())
         self.hesiodLHSEntry.set_sensitive(self.hesiodCheck.get_active())
-        self.hesiodRHSEntry.set_sensitive(self.hesiodCheck.get_active())	
+        self.hesiodRHSEntry.set_sensitive(self.hesiodCheck.get_active())
         self.myHesiodClass.set_enabled(self.hesiodCheck.get_active())
 
     def enableSamba(self, args):
-        self.sambaLabel1.set_sensitive(self.sambaCheck.get_active())		
-        self.sambaLabel2.set_sensitive(self.sambaCheck.get_active())		
+        self.sambaLabel1.set_sensitive(self.sambaCheck.get_active())
+        self.sambaLabel2.set_sensitive(self.sambaCheck.get_active())
         self.sambaServerEntry.set_sensitive(self.sambaCheck.get_active())
-        self.sambaWorkgroupEntry.set_sensitive(self.sambaCheck.get_active())	
+        self.sambaWorkgroupEntry.set_sensitive(self.sambaCheck.get_active())
         self.mySambaClass.set_enabled(self.sambaCheck.get_active())
-        
+
     def toggleLDAP(self, args):
         if (self.ldapRadio1.get_active()):
             self.myLDAPClass.set_auth("YES")
         else:
-            self.myLDAPClass.set_auth("No")	
+            self.myLDAPClass.set_auth("No")
 
     def setSensitive(self, boolean):
         if boolean == False:
@@ -515,7 +516,7 @@ class auth:
 
                 if opt == "--smbworkgroup":
                     self.sambaWorkgroupEntry.set_text(value)
-                    self.sambaCheck.set_active(True)                
+                    self.sambaCheck.set_active(True)
 
                 if opt == "--enablecache":
                     self.nscd_checkbutton.set_active(True)

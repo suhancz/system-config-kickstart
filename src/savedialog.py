@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #
 # Chris Lumens <clumens@redhat.com>
 # Brent Fox <bfox@redhat.com>
@@ -18,7 +19,7 @@
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
 # trademarks that are incorporated in the source code or documentation are not
 # subject to the GNU General Public License and may only be used or replicated
-# with the express permission of Red Hat, Inc. 
+# with the express permission of Red Hat, Inc.
 
 import gtk
 import gtk.glade
@@ -36,7 +37,7 @@ gtk.glade.bindtextdomain("system-config-kickstart")
 _ = lambda x: gettext.ldgettext("system-config-kickstart", x)
 
 class saveDialog:
-	
+
 	def destroy(self, args):
                 self.dialog.hide()
                 return True
@@ -56,7 +57,7 @@ class saveDialog:
 
 		self.dialog.filePath= ""
 		self.dialog.connect ("destroy", self.destroy)
-		
+
 		self.save_ok_button.connect("clicked", self.saveFile)
 		self.save_cancel_button.connect("clicked", self.hide)
 

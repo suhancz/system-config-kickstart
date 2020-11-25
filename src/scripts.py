@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #
 # Chris Lumens <clumens@redhat.com>
 # Brent Fox <bfox@redhat.com>
@@ -18,7 +19,7 @@
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
 # trademarks that are incorporated in the source code or documentation are not
 # subject to the GNU General Public License and may only be used or replicated
-# with the express permission of Red Hat, Inc. 
+# with the express permission of Red Hat, Inc.
 
 import gtk
 import gtk.glade
@@ -39,7 +40,7 @@ class scripts:
         self.post_textview = xml.get_widget("post_textview")
 
         self.interpreter_checkbutton.connect("toggled", self.interpreter_cb)
-        self.pre_interpreter_checkbutton.connect("toggled", self.pre_interpreter_cb)        
+        self.pre_interpreter_checkbutton.connect("toggled", self.pre_interpreter_cb)
 
     def updateKS(self, ksHandler):
         self.ks = ksHandler
@@ -48,13 +49,13 @@ class scripts:
         self.interpreter_entry.set_sensitive(self.interpreter_checkbutton.get_active())
 
     def pre_interpreter_cb(self, args):
-        self.pre_interpreter_entry.set_sensitive(self.pre_interpreter_checkbutton.get_active())        
+        self.pre_interpreter_entry.set_sensitive(self.pre_interpreter_checkbutton.get_active())
 
     def formToKickstart(self):
         self.ks.scripts = []
         self.preData()
         self.postData()
-    
+
     def preData(self):
         pre_buffer = self.pre_textview.get_buffer()
         data = pre_buffer.get_text(pre_buffer.get_start_iter(),pre_buffer.get_end_iter(),True)

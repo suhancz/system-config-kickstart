@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #
 # Chris Lumens <clumens@redhat.com>
 # Brent Fox <bfox@redhat.com>
@@ -18,7 +19,7 @@
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
 # trademarks that are incorporated in the source code or documentation are not
 # subject to the GNU General Public License and may only be used or replicated
-# with the express permission of Red Hat, Inc. 
+# with the express permission of Red Hat, Inc.
 
 #Patch contributed by Bill Huang - applied on 4/23/2001 for Japanese support
 
@@ -158,11 +159,11 @@ class kickstartGui:
 	self.category_view = xml.get_widget("list_view")
 	self.category_store = gtk.ListStore(gobject.TYPE_STRING)
 	self.category_view.set_model(self.category_store)
-	
+
 	col = gtk.TreeViewColumn(_("Subsection"), gtk.CellRendererText(), text=0)
 	col.set_sort_column_id(0)
 	self.category_view.append_column(col)
-	
+
 	self.category_list = [ (_("Basic Configuration")),
                                (_("Installation Method")),
 			       (_("Boot Loader Options")),
@@ -174,7 +175,7 @@ class kickstartGui:
 			       (_("Package Selection")),
                                (_("Pre-Installation Script")),
 			       (_("Post-Installation Script")) ]
-		
+
 	for item in self.category_list:
 		iter = self.category_store.append()
 		self.category_store.set_value(iter, 0, item)

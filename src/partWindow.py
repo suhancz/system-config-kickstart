@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #
 # Chris Lumens <clumens@redhat.com>
 # Brent Fox <bfox@redhat.com>
@@ -18,7 +19,7 @@
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
 # trademarks that are incorporated in the source code or documentation are not
 # subject to the GNU General Public License and may only be used or replicated
-# with the express permission of Red Hat, Inc. 
+# with the express permission of Red Hat, Inc.
 
 import gtk
 import gtk.glade
@@ -188,7 +189,7 @@ class partWindow:
             if part_object.fsType == self.fsTypesDict[type]:
                 fsType = type
                 break
-        self.fsTypeCombo.entry.set_text(fsType) 
+        self.fsTypeCombo.entry.set_text(fsType)
         self.asPrimaryCheck.set_active(part_object.asPrimary)
 
         if part_object.partition:
@@ -234,7 +235,7 @@ class partWindow:
         except:
             fsTypeSelect = 0
         self.fsTypeCombo.set_active(fsTypeSelect)
-        self.sizeCombo.set_text("1") 
+        self.sizeCombo.set_text("1")
         self.sizeCombo.set_sensitive(True)
         self.asPrimaryCheck.set_active(False)
         self.onDiskCheck.set_active(False)
@@ -479,7 +480,7 @@ class partWindow:
             part_object.raidNumber = ""
 
             #It's not raid, so move on
-            if part_object.fsType == "swap":   
+            if part_object.fsType == "swap":
                 #If it's a swap partition, set fsType to be swap
                 part_object.fsType = "swap"
                 part_object.mountPoint = "swap"

@@ -39,7 +39,7 @@ install: ${PKGNAME}.desktop
 	for py in src/*py ; do \
 		sed -e s,@VERSION@,$(VERSION),g $${py} > $(INSTROOT)$(PKGDATADIR)/`basename $${py}` ; \
 	done
-	install src/*glade $(INSTROOT)$(PKGDATADIR)
+	install -m 664 src/*glade $(INSTROOT)$(PKGDATADIR)
 	install pixmaps/${PKGNAME}.png $(INSTROOT)/usr/share/icons/hicolor/48x48/apps
 	install ${PKGNAME}.desktop $(INSTROOT)/usr/share/applications/${PKGNAME}.desktop
 	for d in $(SUBDIRS); do \
@@ -65,7 +65,7 @@ local: po-pull
 	@rm -rf /tmp/${PKGNAME}-$(VERSION) /tmp/${PKGNAME}
 	@dir=$$PWD; cp -a $$dir /tmp/${PKGNAME}-$(VERSION)
 	@dir=$$PWD; cd /tmp; tar --exclude=.git/* -czSpf $$dir/${PKGNAME}-$(VERSION).tar.gz ${PKGNAME}-$(VERSION)
-	@rm -rf /tmp/${PKGNAME}-$(VERSION)	
+	@rm -rf /tmp/${PKGNAME}-$(VERSION)
 	@echo "The archive is in ${PKGNAME}-$(VERSION).tar.gz"
 
 rpmlog:
