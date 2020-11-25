@@ -12,7 +12,7 @@ BuildArch: noarch
 # within this srpm.
 Source0: %{name}-%{version}.tar.gz
 
-Obsoletes: ksconfig, redhat-config-kickstart, mkkickstart
+Conflicts: ksconfig, redhat-config-kickstart, mkkickstart
 BuildRequires: desktop-file-utils, intltool, gettext
 BuildRequires: transifex-client
 Requires: pygtk2 >= 1.99.11, pygtk2-libglade, python
