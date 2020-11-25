@@ -17,9 +17,8 @@ BuildRequires: desktop-file-utils, intltool, gettext
 BuildRequires: transifex-client
 Requires: pygtk2 >= 1.99.11, pygtk2-libglade, python2 >= 2.3.3
 Requires: system-config-language
-Requires: python2-pytz
-Requires: python2-kickstart, yum, hicolor-icon-theme
-Requires: system-config-keyboard >= 1.3.1
+Requires: python3-pytz
+Requires: python3-kickstart, yum, hicolor-icon-theme
 Requires(post): gtk2 >= 2.6
 Requires(postun): gtk2 >= 2.6
 
@@ -54,6 +53,10 @@ desktop-file-install --vendor "" --delete-original \
 %attr(0644,root,root) %{_datadir}/icons/hicolor/48x48/apps/system-config-kickstart.png
 
 %changelog
+* Wed Nov 25 2020 Akos Balla <akos.balla@sirc.hu> - 2.10.0-2
+- Remove the system-config-keyboard dependency
+- Change Python 2 dependencies to Python 3 equivalents
+
 * Fri Feb 16 2018 Chris Lumens <clumens@redhat.com> - 2.10.0-1
 - Upgrade is not supported by kickstart, so remove it.
 - Use pytz instead of system-config-date. (dshea)
@@ -341,10 +344,10 @@ desktop-file-install --vendor "" --delete-original \
 - Add support for more device names.
 - Display a progress bar while yum is working (#187435).
 
-* Mon Mar 27 2006 Chris Lumens <clumens@redhat.com> 2.6.8-1 
+* Mon Mar 27 2006 Chris Lumens <clumens@redhat.com> 2.6.8-1
 - Fix loading kickstart files (#186944).
 
-* Mon Mar 27 2006 Chris Lumens <clumens@redhat.com> 2.6.7-1 
+* Mon Mar 27 2006 Chris Lumens <clumens@redhat.com> 2.6.7-1
 - Fix support for --generate (#186635).
 
 * Fri Feb 24 2006 Chris Lumens <clumens@redhat.com> 2.6.6-2
@@ -407,7 +410,7 @@ desktop-file-install --vendor "" --delete-original \
 - Add SELinux support to the firewall page (#148966).
 - Fix gtk deprecation warnings.
 
-* Wed Jan 12 2005 Chris Lumens <clumens@redhat.com> 2.5.20-1 
+* Wed Jan 12 2005 Chris Lumens <clumens@redhat.com> 2.5.20-1
 - Default to English (USA) instead of English (Singapore).
 
 * Mon Dec 20 2004 Chris Lumens <clumens@redhat.com> - 2.5.19-1
@@ -437,7 +440,7 @@ desktop-file-install --vendor "" --delete-original \
 - ks.cfg parsing errors
 
 * Tue Sep 07 2004 Paul Nasrat <pnasrat@redhat.com> - 2.5.13-1
-- i18n .desktop 
+- i18n .desktop
 
 * Mon Sep 06 2004 Paul Nasrat <pnasrat@redhat.com> - 2.5.12-4
 - PyGTK API fix
@@ -445,7 +448,7 @@ desktop-file-install --vendor "" --delete-original \
 * Tue Aug 10 2004 Paul Nasrat <pnasrat@redhat.com> - 2.5.12-3
 - Fix for mouse autoprobe (#129504)
 
-* Mon Aug 02 2004 Paul Nasrat <pnasrat@redhat.com> 2.5.12-2 
+* Mon Aug 02 2004 Paul Nasrat <pnasrat@redhat.com> 2.5.12-2
 - fix Japanese man page encoding (bug #128767)
 
 * Wed Jun 23 2004 Brent Fox <bfox@redhat.com> - 2.5.12-1
@@ -473,7 +476,7 @@ desktop-file-install --vendor "" --delete-original \
 - fix rhpl mouse bug (#119258)
 - more code to handle multi-platform
 
-* Fri Mar 26 2004 Brent Fox <bfox@redhat.com> 
+* Fri Mar 26 2004 Brent Fox <bfox@redhat.com>
 - first stab at making system-config-kickstart arch aware (bug #91905)
 - removed LILO widgets
 
@@ -539,7 +542,7 @@ desktop-file-install --vendor "" --delete-original \
 - bump relnum and rebuild
 
 * Tue Aug 12 2003 Brent Fox <bfox@redhat.com> 2.3.15-1
-- new security levels are "enabled" and "disabled" 
+- new security levels are "enabled" and "disabled"
 
 * Thu Jul 24 2003 Brent Fox <bfox@redhat.com> 2.3.14-2
 - bump relnum and rebuild
@@ -600,7 +603,7 @@ desktop-file-install --vendor "" --delete-original \
 - bump and build
 
 * Tue Jan 21 2003 Brent Fox <bfox@redhat.com> 2.3.5-11
-- update desktop file translations 
+- update desktop file translations
 * Thu Jan 16 2003 Brent Fox <bfox@redhat.com> 2.3.5-10
 - replace xconfig.py getopt calls with manual parsing (bug #80592)
 * Thu Jan  9 2003 Brent Fox <bfox@redhat.com> 2.3.5-9
@@ -795,7 +798,7 @@ desktop-file-install --vendor "" --delete-original \
 
 * Tue Jul 10 2001 Tammy Fox <tfox@redhat.com>
 - added boot loader options page
-- added text mode install 
+- added text mode install
 
 * Sat Jul 07 2001 Tammy Fox <tfox@redhat.com>
 - added reboot after installation option
@@ -854,4 +857,3 @@ desktop-file-install --vendor "" --delete-original \
 
 * Tue Jan 16 2001 Brent Fox <bfox@redhat.com>
 - initial packaging
-
