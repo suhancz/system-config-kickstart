@@ -62,9 +62,9 @@ def sanitizeString(s, translate = True):
     s = s.replace("&", "&amp;")
     s = s.replace("<", "&lt;")
     s = s.replace(">", "&gt;")
-    if type(s) != unicode:
+    if type(s) != str:
         try:
-            s = unicode(s, "utf-8")
+            s = str(s, "utf-8")
         except UnicodeDecodeError as e:
             sys.stderr.write("Unable to convert %s to a unicode object: %s\n" % (s, e))
             return ""
@@ -119,11 +119,10 @@ def _selectPackage(ayum, group, pkg):
         log = logging.getLogger("yum.verbose")
         log.info("No package named %s available to be installed: %s" %(pkg, e))
     else:
-        map(lambda x: x.groups.append(grpid), txmbrs)
+        list(map(lambda x: x.groups.append(grpid), txmbrs))
 
 def _catHasGroupWithPackages(cat, ayum):
-    grps = map(lambda x: ayum.comps.return_group(x),
-                   filter(lambda x: ayum.comps.has_group(x), cat.groups))
+    grps = [ayum.comps.return_group(x) for x in [x for x in cat.groups if ayum.comps.has_group(x)]]
     for g in grps:
         if ayum._groupHasPackages(g):
             return True
@@ -222,15 +221,15 @@ class OptionalPackageSelector:
         return pkgs[0]
 
     def _populate(self):
-        pkgs = self.group.default_packages.keys() + \
-               self.group.optional_packages.keys()
+        pkgs = list(self.group.default_packages.keys()) + \
+               list(self.group.optional_packages.keys())
         for pkg in pkgs:
             po = self.__getPackageObject(pkg)
             if not po:
                 continue
 
             # Don't display obsolete packages in the UI
-            if self.ayum.up.checkForObsolete([po.pkgtup]).has_key(po.pkgtup):
+            if po.pkgtup in self.ayum.up.checkForObsolete([po.pkgtup]):
                 continue
 
             self.pkgstore.append([self.ayum.isPackageInstalled(pkg), listEntryString(po), po])
@@ -362,8 +361,7 @@ class GroupSelector:
         self._populateGroups(cat.groups, fbpix)
 
     def _populateGroups(self, groups, defaultpix = None):
-        grps = map(lambda x: self.ayum.comps.return_group(x),
-                   filter(lambda x: self.ayum.comps.has_group(x), groups))
+        grps = [self.ayum.comps.return_group(x) for x in [x for x in groups if self.ayum.comps.has_group(x)]]
         grps.sort(ui_comps_sort)
         for grp in grps:
             if not self.ayum._groupHasPackages(grp):
@@ -414,7 +412,7 @@ class GroupSelector:
 
         inst = 0
         cnt = 0
-        pkgs = grp.default_packages.keys() + grp.optional_packages.keys()
+        pkgs = list(grp.default_packages.keys()) + list(grp.optional_packages.keys())
         for p in pkgs:
             if self.ayum.isPackageInstalled(p):
                 cnt += 1
@@ -487,10 +485,10 @@ class GroupSelector:
 
         for cat in self.ayum.comps.categories:
             for g in cat.groups:
-                if grps.has_key(g):
+                if g in grps:
                     del grps[g]
 
-        if len(grps.keys()) == 0:
+        if len(list(grps.keys())) == 0:
             return
         c = yum.comps.Category()
         c.name = _("Uncategorized")
@@ -502,8 +500,7 @@ class GroupSelector:
     def doRefresh(self):
         if len(self.ayum.comps.categories) == 0:
             self.xml.get_widget("categorySW").hide()
-            self._populateGroups(map(lambda x: x.groupid,
-                                     self.ayum.comps.groups))
+            self._populateGroups([x.groupid for x in self.ayum.comps.groups])
         else:
             self._setupCatchallCategory()
             self.populateCategories()
@@ -566,8 +563,8 @@ class GroupSelector:
             self.ayum.selectGroup(grp.groupid)
             model.set_value(i, 0, True)
 
-            for pkg in grp.default_packages.keys() + \
-                    grp.optional_packages.keys():
+            for pkg in list(grp.default_packages.keys()) + \
+                    list(grp.optional_packages.keys()):
                 if self.ayum.isPackageInstalled(pkg):
                     continue
                 elif self.ayum.simpleDBInstalled(name = pkg):
@@ -592,8 +589,8 @@ class GroupSelector:
             i = model.get_iter(p)
             grp = model.get_value(i, 2)
 
-            for pkg in grp.default_packages.keys() + \
-                    grp.optional_packages.keys():
+            for pkg in list(grp.default_packages.keys()) + \
+                    list(grp.optional_packages.keys()):
                 if not self.ayum.isPackageInstalled(pkg):
                     continue
                 elif self.ayum.simpleDBInstalled(name=pkg):

@@ -175,31 +175,31 @@ class hesiodData:
             return " --enablehesiod --hesiodlhs=" + self.hesiodLHS + " --hesiodrhs=" + self.hesiodRHS
 
 class sambaData:
-	def __init__(self, quit_cb=None):
-		global sambaServer
-		global sambaWorkgroup
-		self.sambaServer = " "
-		self.sambaWorkgroup = " "
-		self.enabled = 0
-	def set_server(self, name):
-		self.sambaServer = name
+    def __init__(self, quit_cb=None):
+        global sambaServer
+        global sambaWorkgroup
+        self.sambaServer = " "
+        self.sambaWorkgroup = " "
+        self.enabled = 0
+    def set_server(self, name):
+        self.sambaServer = name
         def set_workgroup(self, name):
-		self.sambaWorkgroup = name
+        self.sambaWorkgroup = name
         def set_enabled(self, val):
-		self.enabled = val
-	def return_server(self):
-		return self.sambaServer
-	def return_workgroup(self):
-		return self.sambaWorkgroup
-	def return_status(self):
-		return self.disabled
-	def return_data(self):
-		if self.enabled == 0:
-			return ""
+        self.enabled = val
+    def return_server(self):
+        return self.sambaServer
+    def return_workgroup(self):
+        return self.sambaWorkgroup
+    def return_status(self):
+        return self.disabled
+    def return_data(self):
+        if self.enabled == 0:
+            return ""
                 elif self.sambaServer == "" or self.sambaWorkgroup == "":
                         return ""
                 else:
-			return " --enablesmbauth --smbservers=" + self.sambaServer + " --smbworkgroup=" + self.sambaWorkgroup
+            return " --enablesmbauth --smbservers=" + self.sambaServer + " --smbworkgroup=" + self.sambaWorkgroup
 
 
 class auth:

@@ -53,7 +53,7 @@ class PreviewDialog:
         self.dialog.vbox.pack_start(label, expand=False, fill=False)
 
         view = gtk.TextView(gtk.TextBuffer())
-        view.get_buffer().set_text(unicode(self.buf))
+        view.get_buffer().set_text(str(self.buf))
         view.set_editable(False)
 
         scroll = gtk.ScrolledWindow()

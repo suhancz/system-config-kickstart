@@ -141,7 +141,7 @@ class GrubBootloader(AbstractBootloader):
                             for i in range(saltLen):
                                 salt = salt + random.choice (string.letters + string.digits + './')
                             self.passwd = crypt.crypt (gp, salt)
-                            self.ks.bootloader.md5pass = unicode(self.passwd, 'iso-8859-1')
+                            self.ks.bootloader.md5pass = str(self.passwd, 'iso-8859-1')
                         else:
                             self.ks.bootloader.password = gp
                             self.ks.bootloader.md5pass = ""
@@ -229,5 +229,5 @@ class bootloader:
         self.ks = ksHandler
         self.default.ks = ksHandler
 
-        for bl in self.blDict.values():
+        for bl in list(self.blDict.values()):
             bl.ks = ksHandler

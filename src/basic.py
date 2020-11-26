@@ -81,7 +81,7 @@ class basic:
             self.ks.platform = "x86, AMD64, or Intel EM64T"
 
         #populate language combo
-        self.lang_list = self.langDict.keys()
+        self.lang_list = list(self.langDict.keys())
         self.lang_list.sort()
         for i in self.lang_list:
             self.lang_combo.append_text(i)
@@ -91,7 +91,7 @@ class basic:
 
         #populate keyboard combo, add keyboards here
         self.keyboard_dict = keyboard_models.KeyboardModels().get_models()
-        keys = self.keyboard_dict.keys()
+        keys = list(self.keyboard_dict.keys())
         self.keyboard_list = []
 
         for item in keys:
@@ -106,7 +106,7 @@ class basic:
         kbd.read()
         currentKeymap = kbd.get()
 
-	#set keyboard to current keymap
+    #set keyboard to current keymap
         try:
             self.keyboard_combo.set_active(self.keyboard_list.index(self.keyboard_dict[currentKeymap][0]))
         except:
@@ -120,7 +120,7 @@ class basic:
                         if t.startswith('Etc/') and
                             (t == "Etc/UTC" or t == "Etc/GMT" or
                                 t.startswith("Etc/GMT-") or t.startswith("Etc/GMT+"))]
-        etc_zones_filtered = filter(lambda t: t != "Etc/GMT-0" and t != "Etc/GMT+0", etc_zones)
+        etc_zones_filtered = [t for t in etc_zones if t != "Etc/GMT-0" and t != "Etc/GMT+0"]
         self.timezone_list = etc_zones_filtered + [ t for t in pytz.common_timezones ]
         self.timezone_list.sort()
 
@@ -139,7 +139,7 @@ class basic:
     def formToKickstart(self):
         self.ks.lang(lang=self.languageLookup(self.lang_combo.get_active_text()))
 
-        keys = self.keyboard_dict.keys()
+        keys = list(self.keyboard_dict.keys())
         keys.sort()
         for item in keys:
             if self.keyboard_dict[item][0] == self.keyboard_combo.get_active_text():
@@ -180,7 +180,7 @@ class basic:
 
                     self.passwd = crypt.crypt (pure, salt)
 
-                    temp = unicode (self.passwd, 'iso-8859-1')
+                    temp = str (self.passwd, 'iso-8859-1')
                     self.ks.rootpw(isCrypted=True, password=temp)
                 else:
                     self.ks.rootpw(isCrypted=True, password=pure)
@@ -219,7 +219,7 @@ class basic:
         else:
             ksLang = self.ks.lang.lang
 
-        for lang in self.langDict.keys():
+        for lang in list(self.langDict.keys()):
             if self.langDict[lang] == ksLang:
                 try:
                     self.lang_combo.set_active(self.lang_list.index(lang))

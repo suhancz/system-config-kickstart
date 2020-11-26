@@ -67,7 +67,7 @@ class ProfileSystem:
             tokens = string.split(line, ":")
             self.ks.rootpw(isCrypted=True, password=tokens[1])
         else:
-            print "no access to /etc/shadow"
+            print("no access to /etc/shadow")
 
     def getSELinux(self):
         lines = os.popen("/usr/sbin/getenforce").readlines()

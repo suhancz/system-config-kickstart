@@ -38,43 +38,43 @@ _ = lambda x: gettext.ldgettext("system-config-kickstart", x)
 
 class saveDialog:
 
-	def destroy(self, args):
+    def destroy(self, args):
                 self.dialog.hide()
                 return True
 
         def __init__ (self, buf, xml):
-		self.xml = xml
-		self.buf = buf
-		self.dialog = self.xml.get_widget("save_dialog")
-		self.dialog.connect("delete-event", self.hide)
-		self.dialog.set_modal(True)
-		toplevel = self.xml.get_widget("main_window")
-		self.dialog.set_transient_for(toplevel)
-		self.save_ok_button = self.xml.get_widget("save_ok_button")
-		self.save_cancel_button = self.xml.get_widget("save_cancel_button")
+        self.xml = xml
+        self.buf = buf
+        self.dialog = self.xml.get_widget("save_dialog")
+        self.dialog.connect("delete-event", self.hide)
+        self.dialog.set_modal(True)
+        toplevel = self.xml.get_widget("main_window")
+        self.dialog.set_transient_for(toplevel)
+        self.save_ok_button = self.xml.get_widget("save_ok_button")
+        self.save_cancel_button = self.xml.get_widget("save_cancel_button")
 
-		self.dialog.set_current_name("ks.cfg")
+        self.dialog.set_current_name("ks.cfg")
 
-		self.dialog.filePath= ""
-		self.dialog.connect ("destroy", self.destroy)
+        self.dialog.filePath= ""
+        self.dialog.connect ("destroy", self.destroy)
 
-		self.save_ok_button.connect("clicked", self.saveFile)
-		self.save_cancel_button.connect("clicked", self.hide)
+        self.save_ok_button.connect("clicked", self.saveFile)
+        self.save_cancel_button.connect("clicked", self.hide)
 
-		self.dialog.set_icon(kickstartGui.iconPixbuf)
+        self.dialog.set_icon(kickstartGui.iconPixbuf)
 
-		self.dialog.show_all()
+        self.dialog.show_all()
 
-	#save file
+    #save file
         def saveFile(self, *args):
-		self.dialog.filePath = self.dialog.get_filename()
+        self.dialog.filePath = self.dialog.get_filename()
 
                 if not self.dialog.filePath:
                     return
 
                 try:
                     ksFile = open(self.dialog.filePath, "w")
-                except KickstartError, e:
+                except KickstartError as e:
                     msg = _("The following error occurred while saving the "
                             "kickstart config %s: %s") % (self.dialog.filePath, e)
                     dlg = gtk.MessageDialog (None, 0, gtk.MESSAGE_ERROR,
@@ -87,9 +87,9 @@ class saveDialog:
                     return
 
                 ksFile.write(self.buf)
-		ksFile.close()
-		self.dialog.hide()
+        ksFile.close()
+        self.dialog.hide()
 
-	def hide(self, *args):
-		self.dialog.hide()
-		return True
+    def hide(self, *args):
+        self.dialog.hide()
+        return True

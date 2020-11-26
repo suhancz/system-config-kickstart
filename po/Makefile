@@ -1,70 +1,70 @@
-TOP	 = ../..
+TOP     = ../..
 
 # What is this package?
-NLSPACKAGE	= system-config-kickstart
-POTFILE		= $(NLSPACKAGE).pot
-INSTALL		= /usr/bin/install -c
-INSTALL_DATA	= $(INSTALL) -m 644
-INSTALL_DIR	= /usr/bin/install -d
+NLSPACKAGE    = system-config-kickstart
+POTFILE        = $(NLSPACKAGE).pot
+INSTALL        = /usr/bin/install -c
+INSTALL_DATA    = $(INSTALL) -m 644
+INSTALL_DIR    = /usr/bin/install -d
 
 # destination directory
 INSTALL_NLS_DIR = $(RPM_BUILD_ROOT)/usr/share/locale
 
 # PO catalog handling
-MSGMERGE	= msgmerge -v
-XGETTEXT	= xgettext --default-domain=$(NLSPACKAGE) \
-		  --add-comments		  
-MSGFMT		= msgfmt --statistics --verbose
+MSGMERGE    = msgmerge -v
+XGETTEXT    = xgettext --default-domain=$(NLSPACKAGE) \
+          --add-comments          
+MSGFMT        = msgfmt --statistics --verbose
 
 # What do we need to do
 GLADEFILES = ../src/*.glade
-POFILES		= $(wildcard *.po)
-MOFILES		= $(patsubst %.po,%.mo,$(POFILES))
-SRCFILES	= $(wildcard ../src/*.py)
+POFILES        = $(wildcard *.po)
+MOFILES        = $(patsubst %.po,%.mo,$(POFILES))
+SRCFILES    = $(wildcard ../src/*.py)
 
 all::  update-po $(MOFILES)
 
 $(POTFILE): $(SRCFILES) glade-po
-	$(XGETTEXT) --keyword=_ --keyword=N_ $(SRCFILES) tmp/*.h
-	@if cmp -s $(NLSPACKAGE).po $(POTFILE); then \
-	    rm -f $(NLSPACKAGE).po; \
-	else \
-	    mv -f $(NLSPACKAGE).po $(POTFILE); \
-	fi; \
+    $(XGETTEXT) --keyword=_ --keyword=N_ $(SRCFILES) tmp/*.h
+    @if cmp -s $(NLSPACKAGE).po $(POTFILE); then \
+        rm -f $(NLSPACKAGE).po; \
+    else \
+        mv -f $(NLSPACKAGE).po $(POTFILE); \
+    fi; \
 
 glade-po: $(GLADEFILES)
-	rm -rf tmp/
-	for f in $(GLADEFILES); do \
-		intltool-extract --type=gettext/glade -l $$f ;\
-	done
+    rm -rf tmp/
+    for f in $(GLADEFILES); do \
+        intltool-extract --type=gettext/glade -l $$f ;\
+    done
 
 update-po: Makefile $(POTFILE) refresh-po
 
 refresh-po: Makefile
-	for cat in $(POFILES); do \
-		lang=`basename $$cat .po`; \
-		if $(MSGMERGE) $$lang.po $(POTFILE) > $$lang.pot ; then \
-			mv -f $$lang.pot $$lang.po ; \
-			echo "$(MSGMERGE) of $$lang succeeded" ; \
-		else \
-			echo "$(MSGMERGE) of $$lang failed" ; \
-			rm -f $$lang.pot ; \
-		fi \
-	done
+    for cat in $(POFILES); do \
+        lang=`basename $$cat .po`; \
+        if $(MSGMERGE) $$lang.po $(POTFILE) > $$lang.pot ; then \
+            mv -f $$lang.pot $$lang.po ; \
+            echo "$(MSGMERGE) of $$lang succeeded" ; \
+        else \
+            echo "$(MSGMERGE) of $$lang failed" ; \
+            rm -f $$lang.pot ; \
+        fi \
+    done
 
 clean:
-	@rm -fv *mo *~ .depend
-	@rm -rf tmp
+    @rm -fv *mo *~ .depend
+    @rm -rf tmp
 
 install: $(MOFILES)
-	@for n in $(MOFILES); do \
-	    l=`basename $$n .mo`; \
-	    $(INSTALL_DIR) $(INSTALL_NLS_DIR)/$$l/LC_MESSAGES; \
-	    $(INSTALL_DATA) --verbose $$n $(INSTALL_NLS_DIR)/$$l/LC_MESSAGES/$(NLSPACKAGE).mo; \
-	done
+    @for n in $(MOFILES); do \
+        l=`basename $$n .mo`; \
+        $(INSTALL_DIR) $(INSTALL_NLS_DIR)/$$l/LC_MESSAGES; \
+        $(INSTALL_DATA) --verbose $$n $(INSTALL_NLS_DIR)/$$l/LC_MESSAGES/$(NLSPACKAGE).mo; \
+    done
 
 %.mo: %.po
-	$(MSGFMT) -o $@ $<
+    $(MSGFMT) -o $@ $<
 
 .PHONY: missing depend
 

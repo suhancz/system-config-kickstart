@@ -78,7 +78,7 @@ class Firewall:
         self.list = {"SSH":"ssh", "Telnet":"telnet", "WWW (HTTP)":"http",
                      "Mail (SMTP)":"smtp", "FTP":"ftp"}
 
-        for item in self.list.keys():
+        for item in list(self.list.keys()):
             iter = self.incomingStore.append()
             self.incomingStore.set_value(iter, 0, False)
             self.incomingStore.set_value(iter, 1, item)

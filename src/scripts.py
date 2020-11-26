@@ -64,7 +64,7 @@ class scripts:
         if data == "":
             return
 
-        preScripts = filter(lambda s: s.type == KS_SCRIPT_PRE, self.ks.scripts)
+        preScripts = [s for s in self.ks.scripts if s.type == KS_SCRIPT_PRE]
 
         if len(preScripts) == 0:
             script = Script("", type=KS_SCRIPT_PRE)
@@ -89,8 +89,7 @@ class scripts:
         if data == "":
             return
 
-        postScripts = filter(lambda s: s.type == KS_SCRIPT_POST,
-                             self.ks.scripts)
+        postScripts = [s for s in self.ks.scripts if s.type == KS_SCRIPT_POST]
 
         if len(postScripts) == 0:
             script = Script("", type=KS_SCRIPT_POST)
@@ -113,8 +112,8 @@ class scripts:
             self.ks.scripts.append(script)
 
     def applyKickstart(self):
-        preScripts = filter(lambda s: s.type == KS_SCRIPT_PRE, self.ks.scripts)
-        postScripts = filter(lambda s: s.type == KS_SCRIPT_POST, self.ks.scripts)
+        preScripts = [s for s in self.ks.scripts if s.type == KS_SCRIPT_PRE]
+        postScripts = [s for s in self.ks.scripts if s.type == KS_SCRIPT_POST]
 
         # We're kind of a crappy UI and assume they only have one script.
         if len(preScripts) > 0:

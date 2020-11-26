@@ -45,12 +45,12 @@ def _getDefaultLangs():
 # to do all the looping
 strs = {}
 def xmltrans(base, thedict):
-    if strs.has_key(base):
+    if base in strs:
         return strs[base]
 
     langs = _getDefaultLangs()
     for l in langs:
-        if thedict.has_key(l):
+        if l in thedict:
             strs[base] = thedict[l]
             return strs[base]
     strs[base] = base

@@ -114,7 +114,7 @@ class partition:
                  # Delete the iter from the dict so that if we go to add
                  # more partitions later, we won't reference a bad iter
                  # and explode.
-                 if self.partWindow.device_iter_dict.has_key(dev_name):
+                 if dev_name in self.partWindow.device_iter_dict:
                      del(self.partWindow.device_iter_dict[dev_name])
 
                  if grandparent:

@@ -102,7 +102,7 @@ class partWindow:
                              _("swap"):"swap", _("vfat"):"vfat",
                              _("PPC PReP Boot"): "PPC PReP Boot"}
 
-        self.fsTypes = self.fsTypesDict.keys()
+        self.fsTypes = list(self.fsTypesDict.keys())
         self.fsTypes.sort()
         for i in self.fsTypes:
             self.fsTypeCombo.append_text(i)
@@ -185,7 +185,7 @@ class partWindow:
 
         self.mountPointCombo.entry.set_text(part_object.mountPoint)
 
-        for type in self.fsTypesDict.keys():
+        for type in list(self.fsTypesDict.keys()):
             if part_object.fsType == self.fsTypesDict[type]:
                 fsType = type
                 break
@@ -363,7 +363,7 @@ class partWindow:
 
         else:
             #Now, there's a device specified for this partition, so let's see if it already has a parent node
-            if part_object.device in self.device_iter_dict.keys():
+            if part_object.device in list(self.device_iter_dict.keys()):
                 #There's already a device parent for this device.  Just add the info
                 device_iter = self.device_iter_dict[part_object.device]
                 if part_object.partition != None:

@@ -103,12 +103,12 @@ class sckYumBase(yum.YumBase):
         # (ie, already installed or in the sack of available packages)
         # so that we don't show empty groups.  also, if there are mandatory
         # packages and we have none of them, don't show
-        for pkg in grp.mandatory_packages.keys():
+        for pkg in list(grp.mandatory_packages.keys()):
             if self._pkgExists(pkg):
                 return True
         if len(grp.mandatory_packages) > 0:
             return False
-        for pkg in grp.default_packages.keys() + grp.optional_packages.keys():
+        for pkg in list(grp.default_packages.keys()) + list(grp.optional_packages.keys()):
             if self._pkgExists(pkg):
                 return True
         return False
@@ -141,7 +141,7 @@ class sckYumBase(yum.YumBase):
 
         try:
             self.doTsSetup()
-        except yum.Errors.RepoError, msg:
+        except yum.Errors.RepoError as msg:
             text = _("Package selection is disabled due to an error in setup.  Please fix your repository configuration and try again.\n\n%s") % msg
             dlg = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, text)
             dlg.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
@@ -156,7 +156,7 @@ class sckYumBase(yum.YumBase):
 
         # If we're on a release, we want to try the base repo first.  Otherwise,
         # try development.  If neither of those works, we have a problem.
-        if "fedora" in map(lambda repo: repo.id, self.repos.listEnabled()):
+        if "fedora" in [repo.id for repo in self.repos.listEnabled()]:
             repoorder = ["fedora", "rawhide", "development"]
         else:
             repoorder = ["rawhide", "development", "fedora"]
@@ -239,30 +239,30 @@ class Packages:
 
         # Faster to grab all the package names up front rather than call
         # searchNevra in the loop below.
-        allPkgNames = map(lambda pkg: pkg.name, self.y.pkgSack.returnPackages())
+        allPkgNames = [pkg.name for pkg in self.y.pkgSack.returnPackages()]
         allPkgNames.sort()
 
         self.y.tsInfo.makelists()
 
-        txmbrNames = map (lambda x: x.name, self.y.tsInfo.getMembers())
+        txmbrNames = [x.name for x in self.y.tsInfo.getMembers()]
 
-        for grp in filter(lambda x: x.selected, self.y.comps.groups):
+        for grp in [x for x in self.y.comps.groups if x.selected]:
             self.ks.packages.groupList.append(Group(name=grp.groupid))
 
-            defaults = grp.default_packages.keys()
-            optionals = grp.optional_packages.keys()
+            defaults = list(grp.default_packages.keys())
+            optionals = list(grp.optional_packages.keys())
 
-            for pkg in filter(lambda x: x in defaults and (not x in txmbrNames and x in allPkgNames), grp.packages):
+            for pkg in [x for x in grp.packages if x in defaults and (not x in txmbrNames and x in allPkgNames)]:
                 self.ks.packages.excludedList.append(pkg)
 
-            for pkg in filter(lambda x: x in txmbrNames, optionals):
+            for pkg in [x for x in optionals if x in txmbrNames]:
                 self.ks.packages.packageList.append(pkg)
 
     def applyKickstart(self):
         if not self.y.packagesEnabled:
             return
 
-        selectedGroups = map (lambda grp: grp.name, self.ks.packages.groupList)
+        selectedGroups = [grp.name for grp in self.ks.packages.groupList]
 
         for grp in self.y.comps.groups:
             if grp.groupid in selectedGroups:
